@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sound Events</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 Sound Events Dashboard</h1>
+        <form method="get" class="filter-form">
+            <label for="type">Filter by Type:</label>
+            <select name="type" id="type">
+                <option value="">All</option>
+                <option value="speech" {% if filter=='speech' %}selected{% endif %}>Speech</option>
+                <option value="silence" {% if filter=='silence' %}selected{% endif %}>Silence</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+
+        <ul class="events-list">
+            {% for event in events %}
+            <li><span class="time">{{ event.timestamp }}</span> — <strong class="type">{{ event.classification }}</strong> <span class="energy">| Energy: {{ event.energy }}</span></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
