@@ -1,0 +1,99 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #c850c0, #4158d0);
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    background-attachment: fixed;
+}
+
+.main-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: #ffffff;
+}
+
+.filter-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.filter-form select,
+.filter-form button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-form button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #222;
+}
+
+#recordBtn {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+#recordBtn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    color: #000;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.event-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: scale(1.03);
+}
+
+.event-card div {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    font-weight: 300;
+}
