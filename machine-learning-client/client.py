@@ -1,31 +1,26 @@
-import time
-import datetime
-import sounddevice as sd
-import numpy as np
+from flask import Flask, request, jsonify
+from utils import analyze_audio
 import pymongo
-from utils import classify_sound
+import os
+from datetime import datetime
 
-def record_audio(duration=2, fs=44100):
-    print("Recording audio...")
-    audio = sd.rec(int(duration * fs), samplerate=fs, channels=1)
-    sd.wait()
-    return audio.flatten()
+app = Flask(__name__)
+mongo_uri = os.environ.get("MONGO_URI", "mongodb://mongodb:27017/")
+client = pymongo.MongoClient(mongo_uri)
+db = client["sound_analysis"]
 
-def save_to_db(result, db):
-    db.sound_events.insert_one({
-        "timestamp": datetime.datetime.utcnow(),
-        "classification": result["label"],
-        "energy": result["energy"],
-        "mean_freq": result["mean_freq"]
-    })
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    if 'audio' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+    file = request.files['audio']
+    audio_data = file.read()
+
+    result = analyze_audio(audio_data)
+    result['timestamp'] = datetime.utcnow()
+    inserted = db.sound_events.insert_one(result)
+    result['_id'] = str(inserted.inserted_id)
+    return jsonify({"status": "success", "result": result})
 
 if __name__ == '__main__':
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["sound_analysis"]
-
-    while True:
-        audio = record_audio()
-        result = classify_sound(audio)
-        save_to_db(result, db)
-        print(f"Saved: {result}")
-        time.sleep(5)
+    app.run(host='0.0.0.0', port=6000)
