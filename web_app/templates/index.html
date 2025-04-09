@@ -21,7 +21,7 @@
             <button type="submit">Apply</button>
         </form>
 
-        <button id="recordBtn">🎙 Start Recording</button>
+        <button id="recordBtn">🎙 Record Now!</button>
 
         <div class="events-grid">
             {% for event in events %}
@@ -45,53 +45,7 @@
         let isRecording = false;
 
         btn.addEventListener("click", async () => {
-            if (!isRecording) {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                recorder = new MediaRecorder(stream);
-                chunks = [];
-
-                recorder.ondataavailable = e => chunks.push(e.data);
-                recorder.onstop = async () => {
-                    const blob = new Blob(chunks, { type: 'audio/webm' });
-                    const formData = new FormData();
-                    formData.append("audio", blob, "recording.webm");
-
-                    try {
-                        const res = await fetch("/upload-audio", {
-                            method: "POST",
-                            body: formData
-                        });
-
-                        const data = await res.json();
-                        if (res.ok && data.result) {
-                            const event = data.result;
-                            const card = document.createElement("div");
-                            card.className = "event-card";
-                            card.innerHTML = `
-                                <div class="event-time">📅 ${new Date(event.timestamp).toLocaleString()}</div>
-                                <div class="event-type">🗣 ${event.classification}</div>
-                                <div class="event-energy">⚡ Energy: ${event.energy}</div>
-                                <div class="event-emotion">😊 Emotion: ${event.emotion}</div>
-                                <div class="event-song">🎵 ${event.recommendation}</div>
-                            `;
-                            eventsGrid.prepend(card);
-                        } else {
-                            alert("Upload failed: " + (data.error || "Unknown error"));
-                        }
-                    } catch (err) {
-                        alert("Upload failed.");
-                        console.error(err);
-                    }
-                };
-
-                recorder.start();
-                isRecording = true;
-                btn.innerText = "⏹ Stop Recording";
-            } else {
-                recorder.stop();
-                isRecording = false;
-                btn.innerText = "🎙 Start Recording";
-            }
+            window.location.href = "/add-event";
         });
     </script>
 </body>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Glass Sound Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+
+        <h1>🎵Whats the Emotion of Your Sound?</h1>
+
+        <button id="recordBtn">🎙 Start Recording</button>
+
+        <div id="confirmControls" style="display: none; text-align: center; margin-top: 20px;">
+            <p style="margin-bottom: 10px;">Recording complete. Do you want to submit it?</p>
+            <button id="confirmBtn" class="action-btn">✅ Confirm</button>
+            <button id="cancelBtn" class="action-btn">❌ Cancel</button>
+        </div>
+    </div>
+
+  <script>
+    const btn = document.getElementById("recordBtn");
+    const confirmControls = document.getElementById("confirmControls");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+
+    let recorder;
+    let chunks = [];
+    let isRecording = false;
+    let currentBlob;
+
+    btn.addEventListener("click", async () => {
+      if (!isRecording) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recorder = new MediaRecorder(stream);
+        chunks = [];
+
+        recorder.ondataavailable = e => chunks.push(e.data);
+
+        recorder.onstop = () => {
+          currentBlob = new Blob(chunks, { type: 'audio/webm' });
+          btn.style.display = "none";
+          confirmControls.style.display = "block";
+        };
+
+        recorder.start();
+        isRecording = true;
+        btn.innerText = "⏹ Stop Recording";
+      } else {
+        recorder.stop();
+        isRecording = false;
+        btn.innerText = "🎙 Start Recording";
+      }
+    });
+
+    confirmBtn.addEventListener("click", async () => {
+      const formData = new FormData();
+      formData.append("audio", currentBlob, "recording.webm");
+
+      try {
+        const res = await fetch("/upload-audio", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok && data.result) {
+          window.location.href = "/";
+        } else {
+          alert("Upload failed: " + (data.error || "Unknown error"));
+          resetUI();
+        }
+      } catch (err) {
+        alert("Upload failed.");
+        console.error(err);
+        resetUI();
+      }
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      resetUI();
+    });
+
+    function resetUI() {
+      currentBlob = null;
+      chunks = [];
+      isRecording = false;
+      btn.style.display = "block";
+      btn.innerText = "🎙 Start Recording";
+      confirmControls.style.display = "none";
+    }
+  </script>
+</body>
+</html>
