@@ -40,13 +40,13 @@ jobs:
 
       - name: Lint with pylint
         run: |
-          pylint web-app/app.py
+          pylint web_app/app.py
 
       - name: Format check with black
         run: |
-          black --check web-app/
+          black --check web_app/
 
       - name: Run tests and check coverage
-        working-directory: web-app
+        working-directory: web_app
         run: |
           pytest --cov=app tests/
