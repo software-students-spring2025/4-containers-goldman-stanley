@@ -26,7 +26,6 @@
         <div class="events-grid">
             {% for event in events %}
             <div class="event-card">
-                <div class="event-time">📅 {{ event.timestamp }}</div>
                 <div class="event-type">🗣 {{ event.classification | capitalize }}</div>
                 <div class="event-energy">⚡ Energy: {{ event.energy }}</div>
                 <div class="event-emotion">😊 Emotion: {{ event.emotion | capitalize }}</div>
