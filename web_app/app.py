@@ -50,10 +50,12 @@ def upload_audio():
     except requests.RequestException as error:
         return jsonify({"error": f"Failed to connect to ML client: {str(error)}"}), 500
 
-@app.route('/add-event', methods=['GET', 'POST'])
+
+@app.route("/add-event", methods=["GET", "POST"])
 def add_event():
     """add a page for recording"""
-    return render_template('add.html')
+    return render_template("add.html")
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5050)
