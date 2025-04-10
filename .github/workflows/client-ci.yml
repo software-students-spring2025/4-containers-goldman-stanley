@@ -28,13 +28,7 @@ jobs:
       - name: Install dependencies
         run: pipenv install --dev
 
-      - name: Run tests with coverage
-        env:
-          PYTHONPATH: ${{ github.workspace }}
-        run: pipenv run pytest --cov=machine_learning_client ../tests/
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: ./machine_learning_client/.coverage
+      - name: Run tests and check coverage
+        working-directory: machine_learning_client
+        run: |
+          pytest --cov=app ../tests/

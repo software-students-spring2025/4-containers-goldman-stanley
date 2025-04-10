@@ -52,6 +52,7 @@ def upload_audio():
 
 @app.route('/add-event', methods=['GET', 'POST'])
 def add_event():
+    """add a page for recording"""
     return render_template('add.html')
 
 if __name__ == "__main__":
