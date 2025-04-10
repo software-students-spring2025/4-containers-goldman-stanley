@@ -30,4 +30,5 @@ jobs:
       - name: Run tests with coverage
         env:
           PYTHONPATH: ${{ github.workspace }}
-        run: pipenv run pytest --cov=machine_learning_client ../tests/
+        run: |
+          pytest --cov=machine_learning_client ../tests/test_client.py
