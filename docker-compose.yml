@@ -12,7 +12,7 @@ services:
       - ML_CLIENT_HOST=http://ml-client:6000
 
   ml-client:
-    build: ./machine-learning-client
+    build: ./machine_learning_client
     ports:
       - "6000:6000"
     environment:
