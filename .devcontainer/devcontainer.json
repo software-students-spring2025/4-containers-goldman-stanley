@@ -1,8 +1,8 @@
 {
-    "name": "Sound Dashboard Dev",
+    "name": "Sound Dashboard Codespace",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "web",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/app",
     "settings": {
       "terminal.integrated.shell.linux": "/bin/bash"
     },
@@ -12,8 +12,8 @@
       "ms-python.flake8",
       "ms-azuretools.vscode-docker"
     ],
-    "postCreateCommand": "pip install -r requirements.txt",
+    "postCreateCommand": "pip install --no-cache-dir -r requirements.txt",
     "forwardPorts": [5050, 6000],
-    "remoteUser": "vscode"
+    "remoteUser": "root"
   }
   
