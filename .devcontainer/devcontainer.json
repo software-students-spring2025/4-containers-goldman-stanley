@@ -1,0 +1,19 @@
+{
+    "name": "Sound Dashboard Dev",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "web",
+    "workspaceFolder": "/workspace",
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+      "ms-python.python",
+      "ms-python.black-formatter",
+      "ms-python.flake8",
+      "ms-azuretools.vscode-docker"
+    ],
+    "postCreateCommand": "pip install -r requirements.txt",
+    "forwardPorts": [5050, 6000],
+    "remoteUser": "vscode"
+  }
+  
